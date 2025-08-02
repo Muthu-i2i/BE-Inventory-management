@@ -12,10 +12,7 @@ const options = {
       }
     },
     servers: [
-      {
-        url: 'http://localhost:5000/api',
-        description: 'Development server'
-      }
+      { url: process.env.SWAGGER_SERVER_URL || 'http://localhost:5000' }
     ],
     components: {
       securitySchemes: {
