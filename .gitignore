@@ -32,12 +32,12 @@ logs/
 *.log
 npm-debug.log*
 
-# Database
-*.sqlite
-*.sqlite3
-prisma/migrations/
-prisma/dev.db
-prisma/dev.db-journal
+# # Database
+# *.sqlite
+# *.sqlite3
+# prisma/migrations/
+# prisma/dev.db
+# prisma/dev.db-journal
 
 # Testing
 coverage/
