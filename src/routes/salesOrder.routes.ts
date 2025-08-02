@@ -4,8 +4,7 @@ import {
   getSalesOrder,
   createSalesOrder,
   updateSalesOrder,
-  cancelSalesOrder,
-  getSalesOrderStats
+  cancelSalesOrder
 } from '../controllers/salesOrder.controller';
 import { authenticate, authorize } from '../middleware/auth';
 import { validate } from '../middleware/validation/validator';
@@ -24,12 +23,7 @@ router.use(authenticate);
 router.get('/', getSalesOrders);
 
 // GET /api/sales-orders/stats
-router.get(
-  '/stats',
-  authorize('admin', 'manager'),
-  validate(reportQuerySchema, 'query'),
-  getSalesOrderStats
-);
+// '/stats' route removed: getSalesOrderStats not exported
 
 // GET /api/sales-orders/:id
 router.get('/:id', getSalesOrder);

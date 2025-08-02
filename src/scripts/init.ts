@@ -125,13 +125,16 @@ async function main() {
       });
       console.log('Created products:', products);
 
+      // Declare laptop variable in outer scope
+      let laptop: any = null;
+
       // Create initial stock
       const location = await prisma.location.findFirst({
         where: { name: 'Section A1' }
       });
 
       if (location) {
-        const laptop = await prisma.product.findFirst({
+        laptop = await prisma.product.findFirst({
           where: { sku: 'DELL-LAP-001' }
         });
 
@@ -160,22 +163,24 @@ async function main() {
       }
 
       // Create sample purchase order
-      const purchaseOrder = await prisma.purchaseOrder.create({
-        data: {
-          supplierId: dellSupplier.id,
-          status: 'open',
-          items: {
-            create: [
-              {
-                productId: laptop!.id,
-                quantity: 10,
-                unitPrice: 800
-              }
-            ]
+      if (laptop) {
+        const purchaseOrder = await prisma.purchaseOrder.create({
+          data: {
+            supplierId: dellSupplier.id,
+            status: 'open',
+            items: {
+              create: [
+                {
+                  productId: laptop.id,
+                  quantity: 10,
+                  unitPrice: 800
+                }
+              ]
+            }
           }
-        }
-      });
-      console.log('Created purchase order:', purchaseOrder);
+        });
+        console.log('Created purchase order:', purchaseOrder);
+      }
     }
 
     console.log('Database initialization completed successfully');

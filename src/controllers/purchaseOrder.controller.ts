@@ -15,8 +15,7 @@ export const getPurchaseOrders = async (req: Request, res: Response, next: NextF
 
     const result = await purchaseOrderService.getPurchaseOrders(
       parseInt(page as string) || 1,
-      parseInt(page_size as string) || 10,
-      filters
+      parseInt(page_size as string) || 10
     );
     res.json(result);
   } catch (error) {

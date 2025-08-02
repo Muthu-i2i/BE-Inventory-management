@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { prisma } from '../lib/prisma';
-import { AppError } from '../middleware/errorHandler';
+import { prisma } from './lib/prisma';
+import { AppError } from './middleware/errorHandler';
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {

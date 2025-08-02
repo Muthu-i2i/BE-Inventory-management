@@ -52,6 +52,9 @@ export const recordMovement = async (req: AuthenticatedRequest, res: Response, n
 export const adjustStock = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
     const { stockId } = req.params;
+    if (!req.user?.userId) {
+      throw new Error('User not authenticated');
+    }
     const adjustment = await stockService.adjustStock({
       stockId: parseInt(stockId),
       approvedById: req.user.userId,

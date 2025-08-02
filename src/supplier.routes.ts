@@ -5,8 +5,8 @@ import {
   createSupplier, 
   updateSupplier, 
   deleteSupplier 
-} from '../controllers/supplier.controller';
-import { authenticate, authorize } from '../middleware/auth';
+} from './controllers/supplier.controller';
+import { authenticate, authorize } from './middleware/auth';
 
 const router = Router();
 

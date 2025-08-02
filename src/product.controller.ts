@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { prisma } from '../lib/prisma';
-import { AppError } from '../middleware/errorHandler';
-import { AuthenticatedRequest, PaginationQuery } from '../types/route.types';
+import { prisma } from './lib/prisma';
+import { AppError } from './middleware/errorHandler';
+import { AuthenticatedRequest, PaginationQuery } from './types/route.types';
 
 export const getProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {

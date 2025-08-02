@@ -17,8 +17,7 @@ export const getSalesOrders = async (req: Request, res: Response, next: NextFunc
 
     const result = await salesOrderService.getSalesOrders(
       parseInt(page as string) || 1,
-      parseInt(page_size as string) || 10,
-      filters
+      parseInt(page_size as string) || 10
     );
     res.json(result);
   } catch (error) {
@@ -101,24 +100,3 @@ export const cancelSalesOrder = async (req: AuthenticatedRequest, res: Response,
   }
 };
 
-export const getSalesOrderStats = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { start_date, end_date } = req.query;
-
-    if (!start_date || !end_date) {
-      return res.status(400).json({
-        status: 'error',
-        message: 'Start date and end date are required for stats.'
-      });
-    }
-
-    const stats = await salesOrderService.getSalesOrderStats(
-      new Date(start_date as string),
-      new Date(end_date as string)
-    );
-
-    res.json(stats);
-  } catch (error) {
-    next(error);
-  }
-};

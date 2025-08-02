@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { 
-  getProducts, 
-  getProduct, 
-  createProduct, 
-  updateProduct, 
-  deleteProduct 
-} from '../controllers/product.controller';
-import { authenticate, authorize } from '../middleware/auth';
+import {
+  getProducts,
+  getProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct
+} from './controllers/product.controller';
+import { authenticate, authorize } from './middleware/auth';
 
 const router = Router();
 

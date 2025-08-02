@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions, Secret } from 'jsonwebtoken';
 import { prisma } from '../lib/prisma';
 import { AppError } from '../middleware/errorHandler';
 
@@ -23,8 +23,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
     const token = jwt.sign(
       { userId: user.id, role: user.role },
-      process.env.JWT_SECRET!,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+      process.env.JWT_SECRET as Secret,
+      { expiresIn: '24h' }
     );
 
     res.json({
@@ -67,8 +67,8 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
     const token = jwt.sign(
       { userId: user.id, role: user.role },
-      process.env.JWT_SECRET!,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+      process.env.JWT_SECRET as Secret,
+      { expiresIn: '24h' }
     );
 
     res.status(201).json({
