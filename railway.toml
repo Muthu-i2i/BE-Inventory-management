@@ -1,0 +1,5 @@
+[env]
+NODE_ENV = "production"
+JWT_SECRET = "your-secure-secret-here"
+CORS_ORIGIN = "your-frontend-url"
+DATABASE_URL = "file:./dev.sqlite"
