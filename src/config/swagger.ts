@@ -12,7 +12,10 @@ const options = {
       }
     },
     servers: [
-      { url: process.env.SWAGGER_SERVER_URL || 'http://localhost:5000' }
+      {
+        url: 'https://be-inventory-management.onrender.com/api',
+        description: 'Development server'
+      }
     ],
     components: {
       securitySchemes: {
