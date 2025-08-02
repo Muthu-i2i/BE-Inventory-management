@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id              Int      @id @default(autoincrement())
+  username        String   @unique
+  hashedPassword  String
+  role            String   // "admin", "manager", "user"
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+}
+
+model Supplier {
+  id             Int             @id @default(autoincrement())
+  name           String
+  email          String         @unique
+  products       Product[]
+  purchaseOrders PurchaseOrder[]
+}
+
+model Warehouse {
+  id        Int        @id @default(autoincrement())
+  name      String
+  capacity  Int
+  address   String
+  locations Location[]
+  products  Product[]
+  stocks    Stock[]
+}
+
+model Location {
+  id          Int       @id @default(autoincrement())
+  name        String
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+  warehouseId Int
+  stocks      Stock[]
+}
+
+model Product {
+  id            Int               @id @default(autoincrement())
+  name          String
+  sku           String           @unique
+  barcode       String           @unique
+  category      Category         @relation(fields: [categoryId], references: [id])
+  categoryId    Int
+  supplier      Supplier         @relation(fields: [supplierId], references: [id])
+  supplierId    Int
+  warehouse     Warehouse        @relation(fields: [warehouseId], references: [id])
+  warehouseId   Int
+  unitPrice     Float
+  price         Float
+  stocks        Stock[]
+  purchaseItems PurchaseOrderItem[]
+  salesItems    SalesOrderItem[]
+}
+
+model Stock {
+  id              Int               @id @default(autoincrement())
+  product         Product           @relation(fields: [productId], references: [id])
+  productId       Int
+  warehouse       Warehouse         @relation(fields: [warehouseId], references: [id])
+  warehouseId     Int
+  location        Location          @relation(fields: [locationId], references: [id])
+  locationId      Int
+  quantity        Int
+  movements       StockMovement[]
+  adjustments     StockAdjustment[]
+}
+
+model PurchaseOrder {
+  id         Int                 @id @default(autoincrement())
+  supplier   Supplier            @relation(fields: [supplierId], references: [id])
+  supplierId Int
+  status     String              // "open", "received", "cancelled"
+  createdAt  DateTime            @default(now())
+  items      PurchaseOrderItem[]
+}
+
+model PurchaseOrderItem {
+  id              Int           @id @default(autoincrement())
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+  purchaseOrderId Int
+  product         Product       @relation(fields: [productId], references: [id])
+  productId       Int
+  quantity        Int
+  unitPrice       Float
+}
+
+model SalesOrder {
+  id         Int              @id @default(autoincrement())
+  customerId Int
+  status     String           // "open", "completed", "cancelled"
+  createdAt  DateTime         @default(now())
+  items      SalesOrderItem[]
+}
+
+model SalesOrderItem {
+  id           Int        @id @default(autoincrement())
+  salesOrder   SalesOrder @relation(fields: [salesOrderId], references: [id])
+  salesOrderId Int
+  product      Product    @relation(fields: [productId], references: [id])
+  productId    Int
+  quantity     Int
+  unitPrice    Float
+}
+
+model StockMovement {
+  id           Int      @id @default(autoincrement())
+  stock        Stock    @relation(fields: [stockId], references: [id])
+  stockId      Int
+  movementType String   // "IN" or "OUT"
+  quantity     Int
+  reason       String
+  createdAt    DateTime @default(now())
+}
+
+model StockAdjustment {
+  id             Int      @id @default(autoincrement())
+  stock          Stock    @relation(fields: [stockId], references: [id])
+  stockId        Int
+  adjustmentType String   // "ADD" or "REMOVE"
+  quantity       Int
+  reason         String
+  approvedById   Int
+  createdAt      DateTime @default(now())
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  action    String
+  entity    String
+  entityId  Int
+  userId    Int
+  details   String
+  timestamp DateTime @default(now())
+}
