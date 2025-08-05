@@ -48,6 +48,8 @@ describe('Product Controller', () => {
             stocks: [{
               id: 1,
               productId: 1,
+              warehouseId: 1,
+              locationId: 1,
               quantity: 10,
               location: {
                 id: 1,
@@ -101,13 +103,22 @@ describe('Product Controller', () => {
         stocks: [{
           id: 1,
           productId: 1,
+          warehouseId: 1,
+          locationId: 1,
           quantity: 10,
           location: {
             id: 1,
             name: 'Location 1',
             warehouseId: 1
           },
-          movements: []
+          movements: [{
+            id: 1,
+            createdAt: new Date(),
+            quantity: 10,
+            movementType: 'IN',
+            reason: 'Initial stock',
+            stockId: 1
+          }]
         }]
       };
 
